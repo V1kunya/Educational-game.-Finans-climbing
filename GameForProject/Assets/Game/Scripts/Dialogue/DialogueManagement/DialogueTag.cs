@@ -27,7 +27,7 @@ public class DialogueTag : MonoBehaviour
             if (keyTag.Length != 2)
                 throw new ArgumentException("Неправильное оформление тега, просьба исправить");
 
-            var key = keyTag [0].Trim();
+            var key = keyTag[0].Trim();
             var value = keyTag[1].Trim();
 
             tags.GetValue(key).Calling(value);

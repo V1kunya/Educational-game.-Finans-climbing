@@ -13,15 +13,21 @@ public class Player : MonoBehaviour
 
     private Animator animator;
 
-    void Start() {
+    void Start() 
+    {
         animator = GetComponent<Animator>();
         myRigidbody = GetComponent<Rigidbody2D>();
     }
 
-    void Update() {
+    void Update() 
+    {
         direction = Vector3.zero;
         direction.x = Input.GetAxisRaw("Horizontal");
         direction.y = Input.GetAxisRaw("Vertical");
+        if (DialogueController.GetInstance().dialogueIsPlaying)
+        {
+            return;
+        }
         UpdateAnimationAndMove();
     }
 

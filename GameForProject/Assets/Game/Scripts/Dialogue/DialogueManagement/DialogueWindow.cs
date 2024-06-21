@@ -57,7 +57,7 @@ public class DialogueWindow : MonoBehaviour
 
     public void SetText(string text)
     {
-        displayText.text += text;
+        displayText.text = text;
     }
 
     public void Add(string text)
@@ -98,6 +98,7 @@ public class DialogueWindow : MonoBehaviour
         var line = story.Continue();
 
         ClearText();
+        dialogueChoice.HideChoices();
 
         CanCountinueToNextLine = false;
         var isAddingRichText = false;
@@ -106,11 +107,10 @@ public class DialogueWindow : MonoBehaviour
 
         foreach (var letter in line.ToCharArray())
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
             {
                 SetText(line);
                 break;
-                
             }
             
             isAddingRichText = letter == '<' || isAddingRichText;

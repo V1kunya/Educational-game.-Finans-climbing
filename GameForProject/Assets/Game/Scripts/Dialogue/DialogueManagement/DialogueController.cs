@@ -10,21 +10,32 @@ public class DialogueController : MonoBehaviour
 {
     private DialogueWindow dialogueWindow;
     private DialogueTag dialogueTag;
-
+    public bool dialogueIsPlaying { get; private set; }    
     public Story CurrentStory{ get; private set; }
     private Coroutine displayLineCoroutine;
+    private static DialogueController instance;
 
     private void Awake() 
     {
+        if (instance != null)
+            Debug.LogWarning("Found more than one Dialogue Manager in the scene");
+        instance = this;
         dialogueTag = GetComponent<DialogueTag>();
         dialogueWindow = GetComponent<DialogueWindow>();
 
         dialogueTag.Init();
         dialogueWindow.Init();
+
+    }
+
+    public static DialogueController GetInstance()
+    {
+        return instance;
     }
 
     private void Start() 
     {
+        dialogueIsPlaying = false;
         dialogueWindow.SetActive(false);
     }
 
@@ -32,7 +43,7 @@ public class DialogueController : MonoBehaviour
     {
         if ( dialogueWindow.IsStatusAnswer == true || dialogueWindow.IsPlaying == false || dialogueWindow.CanCountinueToNextLine == false)
             return;
-        
+
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
             ContinueStory();
     }
@@ -40,25 +51,24 @@ public class DialogueController : MonoBehaviour
     public void EnterDialogueMode(TextAsset inkJSON)
     {
         CurrentStory = new Story(inkJSON.text);
-
+        dialogueIsPlaying = true;
         dialogueWindow.SetActive(true);
-
         ContinueStory();
     }
 
-    private IEnumerator ExitDialogueMode()
+    public IEnumerator ExitDialogueMode()
     {
         yield return new WaitForSeconds(dialogueWindow.CoolDownNewLetter);
-
+        dialogueIsPlaying = false;
         dialogueWindow.SetActive(false);
         dialogueWindow.ClearText();
     }
 
     private void ContinueStory()
     {
-        if (CurrentStory. canContinue == false)
+        if (CurrentStory.canContinue == false)
         {
-            StopCoroutine(ExitDialogueMode());
+            StartCoroutine(ExitDialogueMode());
             return;
         }
 

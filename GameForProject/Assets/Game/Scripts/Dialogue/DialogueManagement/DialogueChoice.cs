@@ -24,7 +24,7 @@ public class DialogueChoice : MonoBehaviour
         var currentChoices = story.currentChoices.ToArray();
 
         if (currentChoices.Length > choices.Length)
-            throw new ArgumentNullException("Ошибка! Выборов в сценарии больш, чем возможностей в игре!");
+            throw new ArgumentNullException("Ошибка! Выборов в сценарии больше, чем возможностей в игре!");
 
         HideChoices();
 

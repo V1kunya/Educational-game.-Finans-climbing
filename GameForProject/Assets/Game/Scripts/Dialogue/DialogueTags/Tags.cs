@@ -9,7 +9,7 @@ public class Tags : MonoBehaviour
 
     private void Start() 
     {
-        map.Add("sreaker", GetComponent<SpeakerTag>());
+        map.Add("speaker", GetComponent<SpeakerTag>());
         map.Add("method", GetComponent<MethodTag>());
         map.Add("cooldown", GetComponent<CooldownTag>());
     }
